@@ -1,6 +1,7 @@
 //@get all contacts
 //GET/api/contacts
 
+
 const getContacts = (req, res) => {
     res.status(200).json({message:'Get All Contacts'});
 };
@@ -12,9 +13,15 @@ const getContact = (req, res) => {
 };
 
 //@create contact
-//POST/api/contacts/:id
+//POST/api/contacts/
 const createContact = (req, res) => {
-    res.status(201).json({message:`Create Contact with id ${req.params.id}`});
+    console.log(req.body);
+    const {name, email, phone} = req.body;
+    if(!name||!email||!phone){
+        res.status(400);
+        throw new Error("All fields are required!");
+    }
+    res.status(201).json({message:"Create Contact"});
 };
 
 //@update contact
