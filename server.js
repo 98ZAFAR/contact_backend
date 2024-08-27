@@ -10,6 +10,7 @@ app.use(express.json());
 app.use('/api/contacts', require('./routes/contactRoutes'));
 app.use(require('./middleware/errorHandler'));
 app.use('/api/user', require('./routes/userRoutes'));
+app.use('/user',require('./routes/clientRoutes'));
 
 
 app.listen(port, () => {
