@@ -129,7 +129,7 @@
                 if (data.accessToken) {
                     // Set the accessToken in localStorage
                     localStorage.setItem('accessToken', data.accessToken);
-                    alert('Login successful!');
+                    window.location.href = '/user/contacts'
                     // Optionally, redirect to another page after successful login
                     // window.location.href = 'dashboard.html';
                 } else {

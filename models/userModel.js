@@ -13,6 +13,9 @@ const userSchema = new mongoose.Schema({
         type:String,
         required:[true, "Password  is required"]
     },
+    passwdResetToken: {
+        type: String
+    }
 },
 {
     timestamps:true
