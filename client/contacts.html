@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Information</title>
+</head>
+<body>
+    <h2>Contact Information</h2>
+    <div id="contactDetails">
+        <!-- Contact details will be displayed here -->
+    </div>
+
+    <script>
+        // Function to fetch and display contact details
+        function fetchContactDetails() {
+            const token = localStorage.getItem('accessToken'); // Get the token from localStorage
+
+            if (!token) {
+                alert('No token found. Please log in first.');
+                return;
+            }
+
+            fetch('/api/contacts', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // Include the token in the Authorization header
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.length > 0) {
+                    // Display the contact details
+                    const contactDetailsDiv = document.getElementById('contactDetails');
+                    contactDetailsDiv.innerHTML = data.map(contact => `
+                        <p><strong>Name:</strong> ${contact.name}</p>
+                        <p><strong>Email:</strong> ${contact.email}</p>
+                        <p><strong>Phone:</strong> ${contact.phone}</p>
+                        <hr>
+                    `).join('');
+                } else {
+                    alert('No contact details available or failed to fetch contact details.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while fetching contact details. Please try again.');
+            });
+        }
+
+        // Call the function to fetch and display contact details when the page loads
+        window.onload = fetchContactDetails;
+    </script>
+</body>
+</html>

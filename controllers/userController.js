@@ -30,7 +30,7 @@ const registerUser = asyncHandler(async (req, res)=>{
         throw new Error("User Data Invalid");
     }
     console.log("User Created Succefully");
-    res.status(200).json({message:"User Registered"});
+    console.log(user);
 });
 
 const loginUser = asyncHandler(async (req, res)=>{
