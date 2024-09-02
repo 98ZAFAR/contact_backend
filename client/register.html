@@ -98,6 +98,19 @@
         border-radius: 2rem;
         outline-style: none;
         border-style: none;
+        cursor: pointer;
+    }
+
+    .loginLink{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .loginLink a{
+        text-decoration: none;
+        font-weight: bold;
     }
 
 </style>
@@ -115,6 +128,10 @@
 
             <div class="submitButton">
                 <button type="submit" id="submitButton">Submit</button>
+            </div>
+            <div class="loginLink">
+                <p>Already have an account?</p>
+                <a href="/user/login"> Login</a>
             </div>
         </form>
     </div>
