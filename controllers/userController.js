@@ -3,6 +3,7 @@ const User = require('../models/userModel');
 const { error } = require('../constants');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nm =  require('nodemailer');
 
 const registerUser = asyncHandler(async (req, res)=>{
     const {username, email, password} = req.body;
@@ -62,4 +63,38 @@ const currentUser = asyncHandler(async (req, res)=>{
     res.json(req.user);
 });
 
-module.exports = {registerUser, loginUser, currentUser};
+
+const resetPass = asyncHandler(async (req, res)=>{
+    const {email} = req.body;
+
+    const userOld = await User.findOne({email});
+    if(!userOld){
+        return res.status(401).json({message:"User does not exist!"});
+    }
+    const secret = process.env.ACCESS_TOKEN_SECRET;
+    const token = jwt.sign({email:userOld.email, id:userOld._id}, secret, {expiresIn:'5m'});
+
+    const link = `http://localhost:${process.env.PORT}/user/reset-password/${userOld._id}/${token}`;
+    // console.log(link);
+    let transporter = nm.createTransport({
+        host:'smtp.gmail.com',
+        port: 465,
+        secure: true,
+
+        auth:{
+            user:process.env.MAIL,
+            pass:process.env.PASSKEY
+        }
+    })
+
+    const info = await transporter.sendMail({
+        from:process.env.MAIL,
+        to:email,
+        subject:'Reset Password',
+        text:`Click the below link to verify the reset password.\n ${link}`
+    });
+    console.log(info.messageId);
+    res.status(200).json({token, link});
+});
+
+module.exports = {registerUser, loginUser, currentUser, resetPass};

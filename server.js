@@ -1,4 +1,4 @@
-const dotnet = require('dotenv').config();
+const dotenv = require('dotenv').config();
 const connectDB = require('./config/dbConnection');
 const express = require('express');
 const app = express();
