@@ -74,7 +74,7 @@ const resetPass = asyncHandler(async (req, res)=>{
     const secret = process.env.ACCESS_TOKEN_SECRET;
     const token = jwt.sign({email:userOld.email, id:userOld._id}, secret, {expiresIn:'5m'});
 
-    const link = `http://localhost:${process.env.PORT}/user/reset-password/${userOld._id}/${token}`;
+    const link = `http://localhost:${process.env.PORT}/user/reset-password?id=${userOld._id}&token=${token}`;
     // console.log(link);
     let transporter = nm.createTransport({
         host:'smtp.gmail.com',
@@ -93,7 +93,6 @@ const resetPass = asyncHandler(async (req, res)=>{
         subject:'Reset Password',
         text:`Click the below link to verify the reset password.\n ${link}`
     });
-    console.log(info.messageId);
     res.status(200).json({token, link});
 });
 
